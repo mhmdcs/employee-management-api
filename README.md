@@ -1,7 +1,3 @@
-Below is a sample **README.md** that summarizes your **Employee Management API** project, explaining how to set it up, run it, and use its endpoints.
-
----
-
 # Employee Management API
 
 A **Spring Boot** application for creating, retrieving, updating, and deleting employee records. Demonstrates:
