@@ -8,3 +8,7 @@ ENTRYPOINT ["java","-jar","/app.jar"]
 # mvn clean package
 # docker build -t employee-management-api:1.0.0 .
 # docker run -p 8080:8080 employee-management-api:1.0.0
+
+# to kill the server process:
+# lsof -i :8080
+# kill PID

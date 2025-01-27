@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-// We can run with a random port, but here we'll just rely on MockMvc & SpringBootTest
+// we can run with a random port, but here we'll just rely on MockMvc & SpringBootTest
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test") // optional, if you want to use a separate application-test.properties
@@ -80,7 +80,7 @@ class EmployeeControllerIntegrationTest {
 
     @Test
     void getEmployeeById_ShouldReturnEmployee_WhenEmployeeExists() throws Exception {
-        // Pre-save an employee
+        // pre-save an employee
         Employee saved = employeeRepository.save(Employee.builder()
                 .firstName("Jane")
                 .lastName("Doe")

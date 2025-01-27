@@ -19,8 +19,8 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     @Async
     public void sendEmployeeCreatedNotification(Employee employee) {
-        // If you don't have an actual SMTP, you can simply log it.
-        // But let's demonstrate a real SimpleMailMessage.
+        // since we don't have an actual SMTP, we can simply just log it
+        // but let's demonstrate a real SimpleMailMessage
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(employee.getEmail());

@@ -21,23 +21,23 @@ public class EmailValidatorServiceImpl implements EmailValidatorService {
     @CircuitBreaker(name = "emailValidatorService", fallbackMethod = "emailFallback")
     public boolean validateEmail(String email) {
         try {
-            // Simulate a third-party call.
-            // In a real scenario, you'd pass the email in a request param or request body, etc.
+            // simulate a third-party call
+            // in prod scenario, we'd pass the email in a request param or request body, etc
             String url = emailValidationApiUrl + "?email=" + email;
 
             log.info("Calling third-party email validation API at: {}", url);
 
-            // Mock response: We just simulate a JSON response like: {"isValid": true}
-            // For demonstration, we can assume it always returns true.
-            // Or parse an actual JSON if the real service does.
-            // Let’s just do a dummy check:
+            // mock response: we just simulate a JSON response like {"isValid": true}
+            // for demonstration purposes, we can assume it always returns true
+            // or parse an actual JSON if the real service does
+            // so for now we use a dummy check:
             boolean isValid = true;
 
-            // (In real code) you might do:
+            // (in prod code) maybe we prob do:
             // ResponseEntity<EmailValidationResponse> response = restTemplate.getForEntity(url, EmailValidationResponse.class);
             // boolean isValid = response.getBody().isValid();
 
-            // For demonstration, let's randomly throw an exception for circuit breaker demonstration
+            // for demonstration, we'll randomly throw an exception for circuit breaker demonstration
             // double random = Math.random();
             // if(random < 0.2) {
             //     throw new RuntimeException("Simulated random third-party exception");
@@ -50,11 +50,11 @@ public class EmailValidatorServiceImpl implements EmailValidatorService {
         }
     }
 
-    // Fallback method if circuit breaker is OPEN or fails
+    // fallback method if circuit breaker is OPEN or fails
     public boolean emailFallback(String email, Throwable throwable) {
         log.warn("Circuit breaker triggered for email validation. Using fallback for email: {}", email);
-        // Decide whether to accept or reject email when the 3rd party is down:
-        // For safety, let's consider all emails invalid if we can't validate them.
+        // decide whether to accept or reject email when the 3rd party is down
+        // for safety, let's consider all emails invalid if we can't validate them.
         return false;
     }
 }

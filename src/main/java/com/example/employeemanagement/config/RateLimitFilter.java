@@ -28,12 +28,12 @@ public class RateLimitFilter extends OncePerRequestFilter {
 
         ConsumptionProbe probe = bucket.tryConsumeAndReturnRemaining(1);
         if (probe.isConsumed()) {
-            // Allowed
+            // allowed
             response.addHeader("X-Rate-Limit-Remaining",
                     String.valueOf(probe.getRemainingTokens()));
             filterChain.doFilter(request, response);
         } else {
-            // Too many requests
+            // too many requests
             response.setStatus(429); // HTTP 429 Too Many Requests
             response.getWriter().write("Too many requests - rate limit exceeded.");
         }

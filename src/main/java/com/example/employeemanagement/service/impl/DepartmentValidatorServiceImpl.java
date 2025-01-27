@@ -19,14 +19,14 @@ public class DepartmentValidatorServiceImpl implements DepartmentValidatorServic
     @Override
     public boolean validateDepartment(String department) {
         try {
-            // Simulated call to a 3rd party
+            // simulated call to a 3rd party
             String url = departmentValidationApiUrl + "?department=" + department;
             log.info("Calling third-party department validation API at: {}", url);
 
-            // Let’s assume it's always valid for the demonstration
+            // assume always valid for demonstration purposes :)
             boolean isValid = true;
 
-            // In real code:
+            // in prod code we'd prob do:
             // ResponseEntity<DepartmentValidationResponse> response = restTemplate.getForEntity(url, DepartmentValidationResponse.class);
             // boolean isValid = response.getBody().isValid();
 

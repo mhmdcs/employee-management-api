@@ -82,7 +82,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
-    // Fallback for any other exceptions
+    // fallback for any other exceptions
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleAllExceptions(
             Exception ex,

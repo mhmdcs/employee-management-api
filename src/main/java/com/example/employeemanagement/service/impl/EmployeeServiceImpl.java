@@ -33,24 +33,24 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee createEmployee(Employee employee) {
         auditLogger.log("Starting creation of employee with email: " + employee.getEmail());
 
-        // Validate email with third-party
+        // validate email with third-party
         boolean emailValid = emailValidatorService.validateEmail(employee.getEmail());
         if (!emailValid) {
             throw new InvalidInputException("Email is invalid according to third-party validation");
         }
 
-        // Validate department with third-party
+        // validate department with third-party
         boolean departmentValid = departmentValidatorService.validateDepartment(employee.getDepartment());
         if (!departmentValid) {
             throw new InvalidInputException("Department is invalid according to third-party validation");
         }
 
-        // Save employee
+        // save employee
         Employee savedEmployee = employeeRepository.save(employee);
 
         auditLogger.log("Employee saved successfully: " + savedEmployee.getId());
 
-        // Send asynchronous email notification
+        // send asynchronous email notification
         notificationService.sendEmployeeCreatedNotification(savedEmployee);
 
         auditLogger.log("Employee creation process completed for: " + savedEmployee.getId());
@@ -68,20 +68,20 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee updateEmployee(UUID id, Employee employee) {
         Employee existing = getEmployeeById(id);
 
-        // Update fields
+        // update fields
         existing.setFirstName(employee.getFirstName());
         existing.setLastName(employee.getLastName());
         existing.setEmail(employee.getEmail());
         existing.setDepartment(employee.getDepartment());
         existing.setSalary(employee.getSalary());
 
-        // Re-validate email if changed
+        // re-validate email if changed
         if (!existing.getEmail().equals(employee.getEmail())) {
             if (!emailValidatorService.validateEmail(employee.getEmail())) {
                 throw new InvalidInputException("Updated email is invalid according to third-party validation");
             }
         }
-        // Re-validate department if changed
+        // re-validate department if changed
         if (!existing.getDepartment().equals(employee.getDepartment())) {
             if (!departmentValidatorService.validateDepartment(employee.getDepartment())) {
                 throw new InvalidInputException("Updated department is invalid according to third-party validation");

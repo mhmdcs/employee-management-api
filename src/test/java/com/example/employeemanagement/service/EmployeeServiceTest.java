@@ -58,15 +58,15 @@ class EmployeeServiceTest {
 
     @Test
     void createEmployee_ShouldReturnSavedEmployee_WhenValidInput() {
-        // Arrange
+        // arrange
         when(emailValidatorService.validateEmail(mockEmployee.getEmail())).thenReturn(true);
         when(departmentValidatorService.validateDepartment(mockEmployee.getDepartment())).thenReturn(true);
         when(employeeRepository.save(mockEmployee)).thenReturn(mockEmployee);
 
-        // Act
+        // act
         Employee result = employeeService.createEmployee(mockEmployee);
 
-        // Assert
+        // assert
         assertThat(result).isNotNull();
         assertThat(result.getId()).isEqualTo(mockEmployee.getId());
         verify(notificationService, times(1)).sendEmployeeCreatedNotification(mockEmployee);
@@ -75,10 +75,10 @@ class EmployeeServiceTest {
 
     @Test
     void createEmployee_ShouldThrowInvalidInputException_WhenEmailInvalid() {
-        // Arrange
+        // arrange
         when(emailValidatorService.validateEmail(mockEmployee.getEmail())).thenReturn(false);
 
-        // Act & Assert
+        // act & assert
         assertThatThrownBy(() -> employeeService.createEmployee(mockEmployee))
                 .isInstanceOf(InvalidInputException.class)
                 .hasMessageContaining("Email is invalid");
@@ -86,11 +86,11 @@ class EmployeeServiceTest {
 
     @Test
     void createEmployee_ShouldThrowInvalidInputException_WhenDepartmentInvalid() {
-        // Arrange
+        // arrange
         when(emailValidatorService.validateEmail(mockEmployee.getEmail())).thenReturn(true);
         when(departmentValidatorService.validateDepartment(mockEmployee.getDepartment())).thenReturn(false);
 
-        // Act & Assert
+        // act & assert
         assertThatThrownBy(() -> employeeService.createEmployee(mockEmployee))
                 .isInstanceOf(InvalidInputException.class)
                 .hasMessageContaining("Department is invalid");
@@ -98,23 +98,23 @@ class EmployeeServiceTest {
 
     @Test
     void getEmployeeById_ShouldReturnEmployee_WhenFound() {
-        // Arrange
+        // arrange
         when(employeeRepository.findById(mockId)).thenReturn(Optional.of(mockEmployee));
 
-        // Act
+        // act
         Employee result = employeeService.getEmployeeById(mockId);
 
-        // Assert
+        // assert
         assertThat(result).isNotNull();
         assertThat(result.getId()).isEqualTo(mockId);
     }
 
     @Test
     void getEmployeeById_ShouldThrowEmployeeNotFoundException_WhenNotFound() {
-        // Arrange
+        // arrange
         when(employeeRepository.findById(mockId)).thenReturn(Optional.empty());
 
-        // Act & Assert
+        // act & assert
         assertThatThrownBy(() -> employeeService.getEmployeeById(mockId))
                 .isInstanceOf(EmployeeNotFoundException.class)
                 .hasMessageContaining("Employee not found");
@@ -122,7 +122,7 @@ class EmployeeServiceTest {
 
     @Test
     void updateEmployee_ShouldReturnUpdatedEmployee_WhenValid() {
-        // Arrange
+        // arrange
         Employee updatedEmployee = Employee.builder()
                 .firstName("Jane")
                 .lastName("Smith")
@@ -136,37 +136,37 @@ class EmployeeServiceTest {
         when(departmentValidatorService.validateDepartment(updatedEmployee.getDepartment())).thenReturn(true);
         when(employeeRepository.save(any(Employee.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        // Act
+        // act
         Employee result = employeeService.updateEmployee(mockId, updatedEmployee);
 
-        // Assert
+        // assert
         assertThat(result.getFirstName()).isEqualTo("Jane");
         assertThat(result.getDepartment()).isEqualTo("Marketing");
     }
 
     @Test
     void deleteEmployee_ShouldNotThrow_WhenEmployeeExists() {
-        // Arrange
+        // arrange
         when(employeeRepository.findById(mockId)).thenReturn(Optional.of(mockEmployee));
         doNothing().when(employeeRepository).delete(mockEmployee);
 
-        // Act
+        // act
         employeeService.deleteEmployee(mockId);
 
-        // Assert
+        // assert
         verify(employeeRepository, times(1)).delete(mockEmployee);
     }
 
     @Test
     void getAllEmployees_ShouldReturnListOfEmployees() {
-        // Arrange
+        // arrange
         List<Employee> employees = Collections.singletonList(mockEmployee);
         when(employeeRepository.findAll()).thenReturn(employees);
 
-        // Act
+        // act
         List<Employee> result = employeeService.getAllEmployees();
 
-        // Assert
+        // assert
         assertThat(result).hasSize(1);
     }
 }

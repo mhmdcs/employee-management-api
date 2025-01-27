@@ -9,5 +9,3 @@
         <appender-ref ref="CONSOLE"/>
     </root>
 </configuration>
-
-<!--TODO set this up-->
